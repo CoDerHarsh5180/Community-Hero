@@ -16,7 +16,7 @@ export interface IUser extends Document {
   isVerified: boolean;
 }
 
-// 2. Create the Mongoose Schema corresponding to the interface
+
 const UserSchema: Schema<IUser> = new Schema(
   {
     email: { 
