@@ -8,8 +8,8 @@ import  sendVerificationEmail  from '@/lib/mailer';
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
-    const { name, username, email, password, role } = await req.json();
-
+    const { name, username, email, password, role, department } = await req.json();
+    console.log(email)
     // 1. Check existing user
     const existingUser = await User.findOne({ $or: [{ email }, { username }] });
     if (existingUser) {
@@ -29,7 +29,8 @@ export async function POST(req: NextRequest) {
       password: hashedPassword,
       role: role || 'CITIZEN',
       verificationToken,
-      isVerified:false
+      isVerified:false,
+      department
     });
 
     // 4. Send Email

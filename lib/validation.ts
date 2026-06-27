@@ -21,7 +21,9 @@ export const signupSchema = z.object({
   password: z.string()
     .min(6, { message: "Password must be at least 6 characters long." })
     .max(50, { message: "Password is too long." }),
-  role: UserRoleEnum
+  role: UserRoleEnum,
+  department:z.string(),
+  otherDepartment: z.string()
 });
 
 export const loginSchema = z.object({

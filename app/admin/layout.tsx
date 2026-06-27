@@ -9,12 +9,15 @@ export default async function AdminLayout({
 }) {
   // 1. Fetch the session directly on the server
   const user = await getSessionUser();
+  // 1. Create a mounted state
 
+    // 2. Set it to true the moment the component hits the browser
+    
   // 2. THE BOUNCER: Kick them out if not authorized
   if (!user || (user.role !== "ADMIN" && user.role !== "AUTHORITY")) {
     redirect("/dashboard/feed"); 
   }
-
+  
   // 3. Render the interactive client shell
   return <AdminShell user={user}>{children}</AdminShell>;
 }

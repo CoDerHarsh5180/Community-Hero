@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db';
-import User from '@/models/User';
+import AuthorityAccess from '@/models/AuthorityAccess';
 import { getSessionUser } from '@/lib/authHelper';
 
 export async function PATCH(
@@ -8,51 +8,32 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> | { id: string } }
 ) {
   try {
-    const sessionUser = await getSessionUser();
-    
-    // Strict Admin-only check
-    if (!sessionUser || sessionUser.role !== 'ADMIN') {
-      return NextResponse.json({ error: 'Forbidden: Admins only' }, { status: 403 });
-    }
+    const session = await getSessionUser();
+    if (!session || session.role !== 'ADMIN') return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
     await connectDB();
-    
-    // Unwrap params for Next.js 15 compatibility
     const resolvedParams = await params;
     const targetUserId = resolvedParams.id;
-    
-    // Get action from body (APPROVE or REJECT)
-    const { action } = await req.json();
+    const { action, assignedCategories } = await req.json();
 
     let updateData = {};
-    let message = "";
-
-    if (action === 'APPROVE') {
-      updateData = { role: 'AUTHORITY', approvalStatus: 'APPROVED' };
-      message = "Authority access granted.";
-    } else if (action === 'REJECT') {
-      updateData = { role: 'CITIZEN', approvalStatus: 'REJECTED' };
-      message = "Access rejected. User status set to Citizen.";
+    if (action === 'UPDATE_ACCESS') {
+      updateData = { approvalStatus: 'APPROVED', assignedCategories: assignedCategories || [] };
+    } else if (action === 'REVOKE') {
+      updateData = { approvalStatus: 'REJECTED', assignedCategories: [] };
     } else {
       return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
 
-    const updatedUser = await User.findByIdAndUpdate(
-      targetUserId,
+    // 🚀 UPSERT: If it exists, update it. If it doesn't, create it!
+    const accessRecord = await AuthorityAccess.findOneAndUpdate(
+      { userId: targetUserId },
       updateData,
-      { new: true }
-    ).select('-password');
+      { new: true, upsert: true }
+    );
 
-    if (!updatedUser) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
-    }
-
-    return NextResponse.json({ 
-      message: message,
-      user: updatedUser 
-    });
+    return NextResponse.json({ message: "Access updated", access: accessRecord });
   } catch (error) {
-    console.error("Authority Update Error:", error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
