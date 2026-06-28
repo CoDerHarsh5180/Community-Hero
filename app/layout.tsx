@@ -1,5 +1,5 @@
 import { Geist, Geist_Mono, Inter, IBM_Plex_Sans } from "next/font/google"
-
+import { getSessionUser } from "@/lib/authHelper";
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils";
@@ -18,7 +18,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return (
+
+
+    return (
     <html
       lang="en"
       suppressHydrationWarning

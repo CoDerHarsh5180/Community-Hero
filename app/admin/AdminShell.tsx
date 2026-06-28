@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import { ShieldAlert, LayoutDashboard, ListTodo, LogOut, ShieldCheck, Menu, X, Sun, Moon } from "lucide-react";
+import { ShieldAlert, LayoutDashboard, ListTodo, LogOut, ShieldCheck, Menu, X, Sun, Moon, Eye } from "lucide-react";
 
 export default function AdminShell({ 
   children, 
@@ -113,6 +113,13 @@ export default function AdminShell({
         })}}>
             <span className="text-white font-bold text-lg">{theme==='light'? (<Sun/>): (<Moon />)}</span>
           </div>
+          <Link 
+            href="/dashboard/feed" 
+            className="mt-4 flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-bold text-slate-300 bg-slate-800/50 hover:bg-slate-800 hover:text-white border border-slate-700/50 transition-all"
+          >
+            <Eye className="w-4 h-4 text-slate-400" />
+            Enter Civilian Mode
+          </Link>
           <Link 
             href="/login"
             className="mt-2 flex items-center justify-center gap-2 w-full px-4 py-2 rounded-lg text-xs font-bold text-red-400 hover:text-red-300 hover:bg-red-950/30 transition-colors"

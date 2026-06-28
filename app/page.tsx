@@ -1,19 +1,32 @@
-import { Button } from "@/components/ui/button"
+import { redirect } from "next/navigation";
+import { getSessionUser } from "@/lib/authHelper";
 
-export default function Page() {
-  return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
-    </div>
-  )
+export default async function RootPage() {
+  // 1. Fetch the session directly on the server when they hit '/'
+  const user = await getSessionUser();
+
+  // 2. If the user is not logged in at all, send them to the landing/login screen
+  if (!user) {
+    redirect("/login");
+  }
+
+  // 3. THE TRAFFIC CONTROLLER: Route them instantly based on their explicit role
+  switch (user.role) {
+    case "ADMIN":
+      redirect("/admin/issues");
+      break;
+      
+    case "AUTHORITY":
+      redirect("/authority/feed");
+      break;
+      
+    case "CITIZEN":
+    default:
+      redirect("/dashboard/feed");
+      break;
+  }
+
+  // This fallback return statement keeps TypeScript happy, 
+  // but next/navigation's redirect() terminates the request before reaching here.
+  return null;
 }

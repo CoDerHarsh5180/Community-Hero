@@ -10,7 +10,7 @@ export default async function AuthorityLayout({ children }: { children: React.Re
 
   // 1. Must be logged in and hold the Authority role
   if (!user || user.role !== "AUTHORITY") {
-    redirect("/login"); 
+    redirect("/signin"); 
   }
 
   await connectDB();

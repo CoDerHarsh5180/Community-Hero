@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Menu, X, Radio, UserCircle, LogOut, ShieldCheck, Sun, Moon } from "lucide-react";
+import { Menu, X, Radio, UserCircle, LogOut, ShieldCheck, Sun, Moon, Eye } from "lucide-react";
 import { useTheme } from "next-themes";
 export default function AuthorityShell({ 
   children, 
@@ -16,6 +16,8 @@ export default function AuthorityShell({
   const [mounted, setMounted] = useState(false)
   const {theme, setTheme} = useTheme()
   useEffect(()=>{setMounted(true)}, [])
+
+  if(!mounted) return <></>
   return (
     <div className="flex h-screen bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-slate-100 overflow-hidden font-sans">
       
@@ -91,7 +93,14 @@ export default function AuthorityShell({
                         <span className="text-white font-bold text-lg">{theme==='light'? (<Sun/>): (<Moon />)}</span>
                       </div>
           <Link 
-            href="/login"
+            href="/dashboard/feed" 
+            className="mt-4 flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-bold text-slate-300 bg-slate-800/50 hover:bg-slate-800 hover:text-white border border-slate-700/50 transition-all"
+          >
+            <Eye className="w-4 h-4 text-slate-400" />
+            Enter Civilian Mode
+          </Link>
+          <Link 
+            href="/signin"
             className="mt-2 flex items-center justify-center gap-2 w-full px-4 py-2 rounded-lg text-xs font-bold text-red-400 hover:text-red-300 hover:bg-red-950/30 transition-colors"
           >
             <LogOut className="w-4 h-4" />

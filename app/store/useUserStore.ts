@@ -23,6 +23,7 @@ export interface User {
   username: string;
   email: string;
   communityPoints: number;
+  role:string
 }
 
 export interface Issue {

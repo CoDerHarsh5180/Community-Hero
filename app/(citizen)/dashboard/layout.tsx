@@ -1,35 +1,40 @@
 "use client";
 
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Link from "next/link";
-import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Map, List, PlusCircle, Trophy, User as UserIcon, Coins, Moon, Sun } from "lucide-react";
+import { 
+  Map, List, PlusCircle, Trophy, User as UserIcon, 
+  Coins, Moon, Sun, ShieldAlert, ShieldCheck 
+} from "lucide-react"; // 🚀 Added Shield Icons here
 import { useLocationStore } from "@/app/store/useLocationStore";
 import { useTheme } from "next-themes";
 import { useUserStore } from "@/app/store/useUserStore";
+
+
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  // 1. Create a mounted state
   const [mounted, setMounted] = useState(false);
 
-  // 2. Set it to true the moment the component hits the browser
   useEffect(() => {
     setMounted(true);
   }, []);
-  // Trigger global location tracking on app load
+
   const fetchLocation = useLocationStore((state) => state.fetchLocation);
-  const fetchUser = useUserStore(state=>state.fetchUser)
+  const fetchUser = useUserStore(state => state.fetchUser);
+  
   useEffect(() => {
     fetchLocation();
-    fetchUser()
+    fetchUser();
   }, [fetchLocation, fetchUser]);
-  const {user} = useUserStore()
-  const {setTheme, theme} = useTheme()
-  if(!mounted){
-    return <div></div>
+  
+  const { user } = useUserStore();
+  const { setTheme, theme } = useTheme();
+  
+  if (!mounted) {
+    return <div></div>;
   }
-  // 1. UPDATED PATHS: Prefixing everything with /dashboard
+
   const navItems = [
     { name: "Map", href: "/dashboard/map", icon: Map },
     { name: "Feed", href: "/dashboard/feed", icon: List },
@@ -51,20 +56,49 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           </h1>
         </div>
         <div className="flex gap-4 items-center">
-        <div className="w-8 h-8 p-1 rounded-md bg-amber-600 flex items-center justify-center" onClick={(e)=>{setTheme((prev)=>{
-          if(prev==='light') return 'dark'
-          else return 'light'
-        })}}>
-            <span className="text-white font-bold text-lg">{theme==='light'? (<Sun/>): (<Moon />)}</span>
+          <div 
+            className="w-8 h-8 p-1 rounded-md bg-amber-600 flex items-center justify-center cursor-pointer" 
+            onClick={() => setTheme((prev) => prev === 'light' ? 'dark' : 'light')}
+          >
+            <span className="text-white font-bold text-lg">
+              {theme === 'light' ? <Sun className="w-5 h-5"/> : <Moon className="w-5 h-5"/>}
+            </span>
           </div>
-        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-100 dark:bg-amber-900/30 rounded-full">
-          <Coins className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-          <span className="font-bold text-sm text-amber-700 dark:text-amber-400">
-            {user?.communityPoints} 
-          </span>
-        </div>
+          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-100 dark:bg-amber-900/30 rounded-full">
+            <Coins className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+            <span className="font-bold text-sm text-amber-700 dark:text-amber-400">
+              {user?.communityPoints} 
+            </span>
+          </div>
         </div>
       </header>
+
+      {/* 🚀 CIVILIAN MODE BANNER (Only visible to Admins & Authorities) */}
+      {user?.role === 'ADMIN' && (
+        <div className="bg-emerald-100 dark:bg-emerald-900/40 px-4 py-2.5 border-b border-emerald-200 dark:border-emerald-800/50 flex justify-between items-center z-40">
+          <span className="text-xs font-bold text-emerald-800 dark:text-emerald-400">Civilian View Active</span>
+          <Link 
+            href="/admin/issues" 
+            className="flex items-center gap-1.5 text-xs font-black text-white bg-emerald-600 hover:bg-emerald-700 px-3 py-1.5 rounded-lg shadow-sm transition-all"
+          >
+            <ShieldAlert className="w-3.5 h-3.5" />
+            Admin Hub
+          </Link>
+        </div>
+      )}
+
+      {user?.role === 'AUTHORITY' && (
+        <div className="bg-blue-100 dark:bg-blue-900/40 px-4 py-2.5 border-b border-blue-200 dark:border-blue-800/50 flex justify-between items-center z-40">
+          <span className="text-xs font-bold text-blue-800 dark:text-blue-400">Civilian View Active</span>
+          <Link 
+            href="/authority/feed" 
+            className="flex items-center gap-1.5 text-xs font-black text-white bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded-lg shadow-sm transition-all"
+          >
+            <ShieldCheck className="w-3.5 h-3.5" />
+            Official Hub
+          </Link>
+        </div>
+      )}
 
       {/* MAIN CONTENT AREA */}
       <main className="flex-1 overflow-y-auto pb-24">
