@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { MapPin, Clock, AlertTriangle, ChevronUp, MessageSquare, Loader2, ChevronLeft, ChevronRight, Send, ThumbsUp } from "lucide-react";
 import { useLocationStore } from "@/app/store/useLocationStore";
 import { useUserStore } from "@/app/store/useUserStore";
-
+import { redirect } from "next/navigation";
 // --- HAVERSINE MATH & CAROUSEL ---
 function getDistanceInKm(lat1: number, lon1: number, lat2: number, lon2: number) {
   const R = 6371;
@@ -75,6 +75,7 @@ function IssueCard({ issue, currentUser }: { issue: any, currentUser: any }) {
       // Rollback only if the server failed
       setHasUpvoted(originalHasUpvoted);
       setUpvotesCount(originalCount);
+      
     }
   };
 
@@ -232,6 +233,7 @@ export default function FeedPage() {
         else if (data.issues) setIssues(data.issues); 
       } catch (error) {
         console.error("Feed error:", error);
+        redirect('/signin')
       } finally {
         setIsFeedLoading(false);
       }

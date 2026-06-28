@@ -10,12 +10,12 @@ import {
 import { useLocationStore } from "@/app/store/useLocationStore";
 import { useTheme } from "next-themes";
 import { useUserStore } from "@/app/store/useUserStore";
-
+import { useRouter } from "next/navigation";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
-
+  const router = useRouter()
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -30,7 +30,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   
   const { user } = useUserStore();
   const { setTheme, theme } = useTheme();
-  
+ 
   if (!mounted) {
     return <div></div>;
   }

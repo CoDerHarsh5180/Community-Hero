@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/select"
 import { toast } from 'sonner'
 import { Loader2 } from 'lucide-react'
+import Link from "next/link"
 
 export default function Page() {
   const [username, setUsername] = useState('')
@@ -263,12 +264,15 @@ export default function Page() {
               disabled={isSubmitting}
             >
               {isSubmitting ? (
-                <span className="flex items-center">
+                <span className="flex items-center p-2">
                   Signing Up...<Loader2 className="ml-2 h-4 w-4 animate-spin" />
                 </span>
               ) : "Sign Up"}
             </Button>
           </Field>
+          <div>
+              Already Have Account?, <Link href='/signin' className="hover:text-blue-500">Sign In </Link>Now
+            </div>
         </CardFooter>
       </Card>
     </div>

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import axios from 'axios';
+import { redirect } from 'next/navigation';
 // ==========================================
 // 1. GAMIFICATION RANK HELPER
 // ==========================================
@@ -92,6 +93,7 @@ export const useUserStore = create<UserState>((set) => ({
         isAuthenticated: false, 
         isLoading: false 
       });
+      redirect('/signin')
     }
   },
 

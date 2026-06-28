@@ -121,7 +121,7 @@ export default function AdminShell({
             Enter Civilian Mode
           </Link>
           <Link 
-            href="/login"
+            href="/signin"
             className="mt-2 flex items-center justify-center gap-2 w-full px-4 py-2 rounded-lg text-xs font-bold text-red-400 hover:text-red-300 hover:bg-red-950/30 transition-colors"
           >
             <LogOut className="w-4 h-4" />

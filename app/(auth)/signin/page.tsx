@@ -23,6 +23,7 @@ import { loginSchema } from "@/lib/validation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import axios, {AxiosError} from "axios"
 import { Loader2 } from "lucide-react"
+import Link from "next/link"
 
 function page() {
     const router = useRouter()
@@ -98,11 +99,13 @@ function page() {
                     </FieldGroup>
                 </form>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex justify-between">
                 <Button type="submit" form="sign-in">
                     {isSubmitting && <span>Please Wait... <Loader2 className="animate-spin"/> </span>}
             {!isSubmitting && ( <div>Login</div> ) }
                 </Button>
+                <div>Don't have an account? <Link href='/signup' className="hover:text-blue-500">Sign Up</Link></div>
+                
             </CardFooter>
         </Card>
     </div>
