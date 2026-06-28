@@ -49,8 +49,8 @@ export default function Page() {
       name: '',
       role: 'CITIZEN',
       // Note: Make sure to add department and otherDepartment to your Zod signupSchema 
-      // department: '',
-      // otherDepartment: '' 
+      department: '',
+      otherDepartment: '' 
     },
     mode: "onChange"
   })
