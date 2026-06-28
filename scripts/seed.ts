@@ -1,8 +1,8 @@
 // seed.ts
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-import User from './models/User';
-import Issue from './models/Issue';
+import User from '../models/User';
+import Issue from '../models/Issue';
 import dotenv from 'dotenv'
 // Load environment variables from .env.local
 dotenv.config({ path: '.env.local' });

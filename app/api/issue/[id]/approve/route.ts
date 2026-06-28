@@ -3,7 +3,7 @@ import { connectDB } from '@/lib/db';
 import User from '@/models/User';
 import { getSessionUser } from '@/lib/authHelper';
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const sessionUser = await getSessionUser();
     
@@ -13,7 +13,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     }
 
     await connectDB();
-    const targetUserId = params.id;
+    const targetUserId = (await params).id;
 
     // Find the user and update their approval status
     const updatedUser = await User.findByIdAndUpdate(

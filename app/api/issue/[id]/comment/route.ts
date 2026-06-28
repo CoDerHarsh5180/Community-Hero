@@ -4,7 +4,7 @@ import Issue from '@/models/Issue';
 import { getSessionUser } from '@/lib/authHelper';
 import User from '@/models/User';
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const user = await getSessionUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

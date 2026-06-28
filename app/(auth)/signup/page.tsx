@@ -60,6 +60,7 @@ export default function Page() {
   const selectedDepartment = form.watch("department")
 
   const onSubmit = async (data: z.infer<typeof signupSchema>) => {
+    console.log('clicked')
     setIsSubmitting(true)
     try {
       const response = await axios.post('/api/signup', data)
