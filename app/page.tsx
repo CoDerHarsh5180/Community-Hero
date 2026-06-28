@@ -7,7 +7,7 @@ export default async function RootPage() {
 
   // 2. If the user is not logged in at all, send them to the landing/login screen
   if (!user) {
-    redirect("/login");
+    redirect("/signin");
   }
 
   // 3. THE TRAFFIC CONTROLLER: Route them instantly based on their explicit role
