@@ -187,7 +187,6 @@ export default function Page() {
                       <SelectContent position="item-aligned">
                         <SelectItem value="CITIZEN">Citizen</SelectItem>
                         <SelectItem value="AUTHORITY">Authority</SelectItem>
-                        <SelectItem value="ADMIN">Admin</SelectItem>
                       </SelectContent>
                     </Select>
                   </Field>
