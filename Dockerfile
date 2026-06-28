@@ -13,6 +13,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # We disable telemetry to speed up the build
 ENV NEXT_TELEMETRY_DISABLED 1
+ENV MONGO_URI="mongodb+srv://dummy"
 RUN npm run build
 
 # Step 3: Production environment
