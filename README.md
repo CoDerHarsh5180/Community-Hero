@@ -1,21 +1,21 @@
-# Next.js template
+# 🦸‍♂️ Community Hero
 
-This is a Next.js template with shadcn/ui.
+**Empowering citizens to report, track, and resolve local infrastructure issues in real-time.**
 
-## Adding components
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-success?style=for-the-badge&logo=vercel)]([YOUR_VERCEL_LINK_HERE](https://commhero-776578830809.asia-south1.run.app/))
 
-To add components to your app, run the following command:
+## 📌 The Problem
+Urban infrastructure maintenance often suffers from a massive disconnect between citizens and local authorities. Potholes, illegal dumping, and water leakages go unnoticed for weeks, while citizens feel their voices aren't heard. **Community Hero** bridges this gap by providing a localized, role-based platform where citizens can effortlessly report issues and authorities can track them straight to resolution.
 
-```bash
-npx shadcn@latest add button
-```
+## 🚀 Key Features
+* **Role-Based Access Control (RBAC):** Secure, distinct dashboards and capabilities for standard citizens and administrative authorities.
+* **Interactive Issue Feed:** A real-time, highly responsive scrolling feed of community reports (potholes, noise pollution, etc.) complete with dynamic status tags (`REPORTED`, `IN_PROGRESS`, `RESOLVED`).
+* **Mobile-First Glassmorphism UI:** Hardware-accelerated, glitch-free UI built for on-the-go reporting using the latest CSS-first approaches.
+* **Secure Authentication:** Custom JWT-based authentication flow with robust route protection.
 
-This will place the ui components in the `components` directory.
+## 💻 Tech Stack
+* **Frontend:** Next.js 15 (App Router), React, Tailwind CSS v4.0.
+* **Backend:** Next.js API Routes (Serverless functions).
+* **Database:** MongoDB Atlas (Cloud NoSQL) with Mongoose ORM.
+* **Deployment:** Google Cloud 
 
-## Using components
-
-To use the components in your app, import them as follows:
-
-```tsx
-import { Button } from "@/components/ui/button";
-```
