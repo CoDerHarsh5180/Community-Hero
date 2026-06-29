@@ -1,3 +1,4 @@
+# Base image
 FROM node:18-alpine AS base
 
 # Step 1: Install dependencies
@@ -11,47 +12,36 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-# We disable telemetry to speed up the build
-ENV NEXT_TELEMETRY_DISABLED 1
 
-
-ENV NEXTAUTH_SECRET="nextauthsecret123"
-ENV EMAIL_SERVER_USER= "email@gmai.com"
-ENV EMAIL_SERVER_PASSWORD="abcd"
-ENV EMAIL_SERVER_HOST="smtp.gmail.com"
-ENV EMAIL_SERVER_PORT=587
-ENV EMAIL_FROM="from@gmail.com"
-ENV CLOUDINARY_CLOUD_NAME = nothing
-ENV CLOUDINARY_API_KEY=12345678912340
-ENV CLOUDINARY_API_SECRET=sjmiaosndiwniolwqmolw
-ENV JWT_SECRET = jidiosjdiosjdiosjijesimcximdiowlejmdiowejmcow
-ENV GEMINI_API_KEY = 89u3je903092ks02k02wkkdsoksowjdoowkopsa
-
-
-
-
+# 🚀 DUMMY VARIABLES: Prevents Next.js 15 from crashing during the build phase
+ENV NEXT_TELEMETRY_DISABLED=1
 ENV MONGODB_URI="mongodb+srv://dummy:dummy@cluster0.mongodb.net/dummy"
+ENV JWT_SECRET="dummy_secret_for_build"
+ENV TOKEN_SECRET = "dummy_secret_for_build"
+# Add any other variables here if your build complains about them missing
+
 RUN npm run build
 
 # Step 3: Production environment
 FROM base AS runner
 WORKDIR /app
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
-# Don't run production as root
+# Security: Don't run the container as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Copy the standalone build from Next.js
+# Copy the optimized standalone build from Next.js
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+# Switch to the non-root user
 USER nextjs
 
 EXPOSE 3000
-ENV PORT 3000
+ENV PORT=3000
 
-# Start the server using the standalone server.js
+# Start the server
 CMD ["node", "server.js"]
