@@ -2,7 +2,7 @@
 
 **Empowering citizens to report, track, and resolve local infrastructure issues in real-time.**
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-success?style=for-the-badge&logo=vercel)]([YOUR_VERCEL_LINK_HERE](https://commhero-776578830809.asia-south1.run.app/))
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-success?style=for-the-badge&logo=vercel)]((https://commhero-776578830809.asia-south1.run.app/))
 
 ## 📌 The Problem
 Urban infrastructure maintenance often suffers from a massive disconnect between citizens and local authorities. Potholes, illegal dumping, and water leakages go unnoticed for weeks, while citizens feel their voices aren't heard. **Community Hero** bridges this gap by providing a localized, role-based platform where citizens can effortlessly report issues and authorities can track them straight to resolution.
